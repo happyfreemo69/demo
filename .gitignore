@@ -1,0 +1,10 @@
+*.txt
+.vagrant
+node_modules
+.idea
+npm-debug.log
+config/privateConfig.js
+.DS_Store
+assets/vendor/jquery.js
+assets/vendor/pure.css
+assets/vendor/font-awesome

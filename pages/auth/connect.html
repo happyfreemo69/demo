@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Démo CityLity</title>
+        <script type="text/javascript" src="/assets/vendor/jquery.js"></script>
+        <script type="text/javascript" src="/assets/dynamic/constants.js"></script>
+        <script type="text/javascript" src="/assets/auth/loginView.js"></script>
+        <link rel="stylesheet" href="/assets/auth/loginView.css">
+        <script type="text/javascript" src="/assets/userd.js"></script>
+        <script type="text/javascript" src="/assets/synty.js"></script>
+        <link rel="stylesheet" href="/assets/vendor/pure.css">
+    </head>
+<body>
+<script type="text/javascript">
+    
+function main(){
+    synty.conf('base',CONSTANTS.syntyUrl);
+    userd.conf('base',CONSTANTS.userdUrl);
+            
+    var loginView = new LoginView(document.getElementById('login'), userd);
+    loginView.on('logged', function(cred){
+        synty.cred = cred;
+        userd.cred = cred;
+        console.log('ok');
+        window.location = '/pages/zoneApps/actions.html'
+    })
+    loginView.init();
+}
+
+$(document).ready(main);
+</script>
+<section id="login"></section>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+.hidden{
+    display:none;
+}
+html section{
+    margin-left:20px;
+}
+.as-pure-form-legend{
+    display: block;
+    width: 100%;
+    padding: 0.3em 0;
+    margin-bottom: 0.3em;
+    margin-top:1.3em;
+    color: #333;
+    border-bottom: 1px solid #e5e5e5;
+}
+form .field{
+    margin-top:0.3em;
+}
+div.colorPicker-picker{
+    display:inline-block;
+}
+#categ .fa.fa-remove{
+    color:red;
+}

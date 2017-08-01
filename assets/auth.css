@@ -1,0 +1,17 @@
+body{
+    background-color:#3bbcd8;
+    margin:0;
+    padding:0;
+}
+section{
+    width:100px;
+}
+legend {
+    display:block;
+    background-color:white;
+    width: 100px;
+}
+
+.hidden{
+    display:none;
+}
