@@ -1,5 +1,6 @@
-function MenuView(node, userd){
+function MenuView(node, loginView){
     this.node = node;
+    this.loginView = loginView;
 }
 MenuView.prototype.init = function(){
     var self = this;
@@ -7,18 +8,21 @@ MenuView.prototype.init = function(){
 }
 
 MenuView.prototype.render = function(){
-    return this.node.innerHTML = this.template();
+    var x = this.node.innerHTML = this.template();
+    if(this.loginView){
+        $('a.logout').click((e)=>{
+            this.loginView.logout();
+        })
+    }
+    return x;
 }
 MenuView.prototype.template = function(){
 
     var str = `<div class="login-override login-hidden pure-menu pure-menu-horizontal header">
         <a href="/" class="pure-menu-heading pure-menu-link">HOME</a>
         <ul class="pure-menu-list">
-            <li class="pure-menu-item"><a href="/pages/apps.html" class="pure-menu-link">Apps</a></li>
-            <li class="pure-menu-item"><a href="/pages/categs/list.html" class="pure-menu-link">Categs</a></li>
-            <li class="pure-menu-item"><a href="/pages/packages.html" class="pure-menu-link">Packages</a></li>
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link logout">logout</a></li>
         </ul>
     </div>`;
     return str;
-
 }

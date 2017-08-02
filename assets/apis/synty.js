@@ -5,7 +5,7 @@ var synty = (function(base){
         if(!o){o={}}
         return $.ajax({
             type: "GET",
-            url: opts.base+url,
+            url: opts.base+url.replace(opts.base, ''),
             beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'bearer '+(o.access_token||exports.cred.access_token));},
         }).catch(function(e){
             return Promise.reject(e);
@@ -37,16 +37,23 @@ var synty = (function(base){
             return Promise.reject(e);
         })
     }
-    function getMe(o){
-        return _get(o, '/v1/me');
-    }
 
     var exports = {cred:{}};
+    exports.get = _get;
+    exports.createCampus = function(o={}, where, body){
+        return _post(o, '/v1/me/campuses', body);
+    }
+    exports.getMe = function(o={}){
+        return _get(o, '/v1/me');
+    }
     exports.getRawCategories = function(o={}){
         return _get(o, '/v1/admin/categories?limit=1000');
     }
     exports.getApps = function(o={}){
         return _get(o, '/v1/admin/apps?limit=1000');
+    }
+    exports.getDemoApps = function(o={}){
+        return _get(o, '/v1/apps?demo=1');
     }
     exports.getTree = function(o={}, where){
         return _get(o, '/v1/admin/categories?appId='+where.appId);

@@ -3,21 +3,59 @@
     <head>
         <meta charset="utf-8">
         <title>Démo CityLity</title>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <style>
+          /* Always set the map height explicitly to define the size of the div
+           * element that contains the map. */
+          #map {
+            width:500px;
+            height: 500px;
+          }
+        </style>
         <script type="text/javascript" src="/assets/vendor/jquery.js"></script>
         <script type="text/javascript" src="/assets/dynamic/constants.js"></script>
         <script type="text/javascript" src="/assets/auth/loginView.js"></script>
         <link rel="stylesheet" href="/assets/auth/loginView.css">
-        <script type="text/javascript" src="/assets/userd.js"></script>
-        <script type="text/javascript" src="/assets/synty.js"></script>
+        <script type="text/javascript" src="/assets/apis/userd.js"></script>
+        <script type="text/javascript" src="/assets/apis/synty.js"></script>
         <link rel="stylesheet" href="/assets/vendor/pure.css">
         <script type="text/javascript" src="/assets/zoneApps/actions.js"></script>
-        <script type="text/javascript" src="/assets/zoneApps/manageView.js"></script>
+        <script type="text/javascript" src="/assets/zoneApps/boView.js"></script>
         <script type="text/javascript" src="/assets/zoneApps/createView.js"></script>
+
+        <script type="text/javascript" src="/assets/menuView.js"></script>
+
     </head>
 <body>
+<section id="menu"></section>
 <section id="login"></section>
-<div class="login-override login-hidden pure-g">
-    HELLO WORLD
+<div class="login-override login-hidden">
+    <div id="boView" class="hidden">
+        You already have created a zoneApp.<br/>
+        You may manage it via <a href="">the backoffice</a>
+    </div>
+    <div id="createView" class="hidden">
+        <form>
+            <div class="zoneAppCreation">
+                Référence <input type="text" name="reference"><br/>
+                Nom de la zone <input type="text" name="name">
+                <div id="map">
+                    Loading...
+                </div>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZzAxEFzJrzKbyBrAeyKeTEbjZJHcfd_M&libraries=drawing"></script>
+                <script>
+                console.log('MAPPED LOSED')
+                </script>
+            </div>
+            <div class="categorySelection">
+                <!-- by ajax -->
+                <select name="appId"></select>
+            </div>
+            <input type="submit" value="créer la zone">
+        </form>
+    </div>
 </div>
+
 </body>
 </html>
