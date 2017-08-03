@@ -16,7 +16,7 @@ var synty = (function(base){
         if(!o){o={}}
         return $.ajax({
             type: "POST",
-            url: opts.base+url,
+            url: opts.base+url.replace(opts.base, ''),
             contentType : 'application/json',
             data: JSON.stringify(body),
             beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'bearer '+(o.access_token||exports.cred.access_token));},
@@ -40,6 +40,7 @@ var synty = (function(base){
 
     var exports = {cred:{}};
     exports.get = _get;
+    exports.post = _post;
     exports.createCampus = function(o={}, where, body){
         return _post(o, '/v1/me/campuses', body);
     }

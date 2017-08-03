@@ -1,18 +1,20 @@
-function CreateView(node){
+function CreateView(node, synty){
+    this.synty = synty;
     this.node = node;
-    this.polygon = null;
+    this.geometry = [];//[0,0,1,0,1,1,0,1];
     var jNode = $(node)
     this.h_reference = jNode.find('input[name=reference]')[0];
     this.h_name = jNode.find('input[name=name]')[0];
     this.h_app = jNode.find('select')[0];
     this.apps = [];
+    this.me = null;
 }
 CreateView.prototype.init = function(){
+    var self = this;
     $('form', this.node).submit(e=>{
       try{
         var o = {};
         [this.h_reference, this.h_name, this.h_app].forEach(x=>{
-          console.log('iter ', x)
           var val = $(x).val();
           if(!val){
             alert(x.name+' is mandatory');
@@ -20,42 +22,41 @@ CreateView.prototype.init = function(){
           }
           o[x.name] = val;
         });
-        if(!this.polygon){
-          throw 'polygon required';
+        if(!this.geometry){
+          throw 'geometry required';
         }
-        o.geometry = this.polygon;
-        return synty.createCampus({},{},o).then(()=>{
-          alert('zone créée!!');
+        o.geometry = this.geometry.join(',');
+        //TODO HERE
+        self.synty.post({},self.me.links.moderatedCampuses, o).then(()=>{
+          window.location.reload();
         }).catch(e=>{
           alert(JSON.stringify(e));
         })
+        e.preventDefault();
+        return false;
       }catch(e){
-        console.log('you suck ', e)
+        alert('you should learn how to code and replace me');
       }
       e.preventDefault();
       return false;
     })
 }
 CreateView.prototype.render = function(){
-    console.log('GO ,' )
-    console.log('render createView');
     var options = this.apps.map(x=>{
       return '<option value="'+x.id+'">'+x.name+'</option>'
     })
     this.h_app.innerHTML = `${options}`;
-    console.log('ok :' , options)
     return this;
 }
 CreateView.prototype.show = function(){
-    console.log('GO ,' )
     $(this.node).removeClass('hidden')
     return this;
 }
 CreateView.prototype.initMap = function(){
-    console.log('GO uubtobobi ', document.getElementById('map'));
+    var self = this;
     var map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: -34.397, lng: 150.644},
-      zoom: 8
+      center: {lat: 45.7804785, lng: 4.8073978},
+      zoom: 19
     });
     var allOverlays = [];
     var drawingControlOptions = {
@@ -76,19 +77,13 @@ CreateView.prototype.initMap = function(){
     });
     drawingManager.setMap(map);
     drawingControlOptions.drawingModes.forEach(x=>{
-      google.maps.event.addListener(drawingManager, x+'complete', function(event) {
+      google.maps.event.addListener(drawingManager, x+'complete', function(overlay) {
         allOverlays.forEach(y=>y.setMap(null));
         allOverlays = [];
-        this.polygon = event;
-        allOverlays.push(event);
-        console.log('COMPLETE');
-        var coordinatesArray = this.polygon.getPath().getArray().reduce((arr,x)=>{
+        allOverlays.push(overlay);
+        self.geometry = overlay.getPath().getArray().reduce((arr,x)=>{
           return arr.concat([x.lng(), x.lat()]);
-        },[])
-        console.log('got ', coordinatesArray)
-        if (event.type == 'circle') {
-          var radius = event.overlay.getRadius();
-        }
+        },[]);
       });  
     })
 }
